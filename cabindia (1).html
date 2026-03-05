@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CabSaathi — Your Trusted Ride Partner</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/*===== RESET & ROOT =====*/
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --yellow:#FFD600;
+  --yellow-dark:#F5C000;
+  --yellow-light:#FFF8CC;
+  --black:#111111;
+  --dark:#1A1A1A;
+  --charcoal:#2C2C2C;
+  --white:#FFFFFF;
+  --off-white:#F9F7F2;
+  --muted:#888;
+  --light-gray:#F0EFEA;
+  --border:#E5E3DC;
+  --green:#22C55E;
+  --red:#EF4444;
+  --shadow:0 4px 24px rgba(0,0,0,0.10);
+  --shadow-lg:0 12px 48px rgba(0,0,0,0.18);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--off-white);
+  color:var(--black);
+  overflow-x:hidden;
+}
+
+/*===== SCROLLBAR =====*/
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:var(--yellow);border-radius:3px;}
+
+/*===== NAV =====*/
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  height:68px;
+  background:var(--black);
+  border-bottom:2px solid var(--yellow);
+  transition:box-shadow 0.3s;
+}
+nav.scrolled{box-shadow:0 4px 32px rgba(255,214,0,0.12);}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.8rem;
+  color:var(--yellow);
+  letter-spacing:2px;
+  text-decoration:none;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.nav-logo span{color:var(--white);}
+.nav-links{
+  display:flex;align-items:center;gap:2rem;
+  list-style:none;
+}
+.nav-links a{
+  color:var(--white);
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.9rem;
+  letter-spacing:0.5px;
+  position:relative;
+  transition:color 0.2s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;
+  background:var(--yellow);transition:width 0.3s;
+}
+.nav-links a:hover{color:var(--yellow);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  background:var(--yellow);color:var(--black);
+  padding:0.5rem 1.4rem;border-radius:50px;
+  font-weight:800;font-size:0.9rem;
+  text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s;
+  border:none;cursor:pointer;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(255,214,0,0.4);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s;}
+.mobile-menu{
+  display:none;position:fixed;top:68px;left:0;right:0;z-index:999;
+  background:var(--black);border-bottom:2px solid var(--yellow);
+  padding:1.5rem 5%;flex-direction:column;gap:1.2rem;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--white);text-decoration:none;font-weight:700;font-size:1rem;}
+
+/*===== HERO =====*/
+.hero{
+  min-height:100vh;
+  background:var(--black);
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding-top:68px;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 80% at 70% 50%,rgba(255,214,0,0.08) 0%,transparent 70%);
+}
+.hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,214,0,0.15) 1px,transparent 1px);
+  background-size:32px 32px;
+  opacity:0.5;
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:4rem 5%;
+  max-width:680px;
+  animation:fadeUp 0.8s ease both;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(255,214,0,0.12);border:1px solid rgba(255,214,0,0.3);
+  color:var(--yellow);padding:0.35rem 1rem;border-radius:50px;
+  font-size:0.78rem;font-weight:700;letter-spacing:1px;
+  margin-bottom:1.5rem;text-transform:uppercase;
+}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.5rem,8vw,6rem);
+  line-height:0.95;
+  color:var(--white);
+  letter-spacing:1px;
+  margin-bottom:1.2rem;
+}
+.hero h1 em{color:var(--yellow);font-style:normal;}
+.hero p{
+  color:#AAA;font-size:1.05rem;line-height:1.7;
+  max-width:480px;margin-bottom:2.5rem;
+}
+
+/* Search Bar */
+.search-box{
+  background:var(--white);border-radius:16px;
+  padding:1.2rem 1.5rem;
+  box-shadow:0 8px 40px rgba(0,0,0,0.3);
+  display:flex;flex-direction:column;gap:1rem;
+  max-width:520px;
+  animation:fadeUp 0.9s 0.2s ease both;
+  opacity:0;
+}
+.search-row{display:flex;gap:0.75rem;}
+.search-input-wrap{
+  flex:1;display:flex;align-items:center;gap:0.6rem;
+  background:var(--light-gray);border-radius:10px;padding:0.6rem 1rem;
+  border:2px solid transparent;transition:border-color 0.2s;
+}
+.search-input-wrap:focus-within{border-color:var(--yellow);}
+.search-input-wrap input{
+  border:none;background:transparent;outline:none;
+  font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:600;
+  width:100%;color:var(--black);
+}
+.search-input-wrap input::placeholder{color:var(--muted);}
+.si-icon{font-size:1rem;color:var(--muted);}
+.search-submit{
+  background:var(--yellow);color:var(--black);
+  border:none;border-radius:10px;padding:0 1.4rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;white-space:nowrap;
+}
+.search-submit:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,214,0,0.4);}
+.search-tags{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.stag{
+  background:var(--yellow-light);color:var(--black);
+  font-size:0.75rem;font-weight:700;padding:0.25rem 0.7rem;border-radius:50px;
+  cursor:pointer;transition:background 0.2s;
+}
+.stag:hover{background:var(--yellow);}
+
+/* Hero image / car graphic */
+.hero-visual{
+  position:absolute;right:-2%;bottom:0;
+  width:52%;max-width:700px;
+  opacity:0;animation:slideLeft 1s 0.3s ease forwards;
+}
+.hero-visual img{width:100%;}
+.hero-car-svg{
+  width:100%;height:auto;
+}
+
+/* Trust strip */
+.trust-strip{
+  background:var(--yellow);
+  padding:1rem 5%;
+  display:flex;align-items:center;justify-content:center;
+  gap:3rem;flex-wrap:wrap;
+  overflow:hidden;
+}
+.trust-item{
+  display:flex;align-items:center;gap:0.5rem;
+  font-weight:800;font-size:0.85rem;color:var(--black);
+  white-space:nowrap;
+}
+.trust-item .ticon{font-size:1.2rem;}
+
+/*===== SECTIONS COMMON =====*/
+.section{padding:5rem 5%;}
+.section-tag{
+  display:inline-block;
+  background:var(--yellow);color:var(--black);
+  font-size:0.72rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;
+  padding:0.3rem 0.9rem;border-radius:4px;margin-bottom:1rem;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.2rem,5vw,3.5rem);
+  line-height:1.05;color:var(--black);letter-spacing:0.5px;
+  margin-bottom:0.6rem;
+}
+.section-sub{
+  color:var(--muted);font-size:1rem;max-width:520px;line-height:1.6;
+}
+.section-header{margin-bottom:3rem;}
+
+/*===== STATS =====*/
+.stats-section{
+  background:var(--black);
+  padding:4rem 5%;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0;
+}
+.stat-item{
+  flex:1;min-width:160px;
+  text-align:center;padding:2rem 1.5rem;
+  border-right:1px solid #2a2a2a;
+  animation:fadeUp 0.6s ease both;
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;color:var(--yellow);line-height:1;
+}
+.stat-label{color:#888;font-size:0.85rem;font-weight:700;margin-top:0.4rem;text-transform:uppercase;letter-spacing:1px;}
+
+/*===== DRIVERS =====*/
+.drivers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:1.5rem;
+}
+.driver-card{
+  background:var(--white);border-radius:20px;
+  box-shadow:var(--shadow);
+  overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;
+  position:relative;
+}
+.driver-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);}
+.driver-card-top{
+  background:var(--black);
+  padding:2rem 1.5rem 1.5rem;
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;
+}
+.driver-badge{
+  position:absolute;top:1rem;right:1rem;
+  display:flex;align-items:center;gap:0.3rem;
+  background:var(--yellow);color:var(--black);
+  font-size:0.7rem;font-weight:800;padding:0.25rem 0.6rem;border-radius:50px;
+}
+.driver-avatar{
+  width:90px;height:90px;border-radius:50%;
+  border:3px solid var(--yellow);
+  object-fit:cover;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;margin-bottom:1rem;
+  background:var(--charcoal);
+}
+.driver-name{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;
+  color:var(--white);letter-spacing:1px;
+}
+.driver-vehicle{color:#888;font-size:0.8rem;font-weight:600;margin-top:0.2rem;}
+.driver-stars{
+  display:flex;gap:2px;margin-top:0.6rem;font-size:0.95rem;
+}
+.star-filled{color:var(--yellow);}
+.star-empty{color:#444;}
+.driver-rating-text{color:#ccc;font-size:0.78rem;margin-left:0.3rem;font-weight:700;}
+.driver-card-body{padding:1.25rem 1.5rem;}
+.driver-meta{display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;}
+.dmeta{
+  display:flex;align-items:center;gap:0.3rem;
+  font-size:0.78rem;font-weight:700;color:var(--muted);
+}
+.dmeta .dm-icon{font-size:0.9rem;}
+.driver-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.dtag{
+  font-size:0.7rem;font-weight:800;padding:0.2rem 0.6rem;
+  border-radius:50px;background:var(--light-gray);color:var(--charcoal);
+}
+.driver-actions{display:flex;gap:0.75rem;}
+.btn-book{
+  flex:1;background:var(--yellow);color:var(--black);
+  border:none;border-radius:10px;padding:0.65rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;
+  cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+}
+.btn-book:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,214,0,0.4);}
+.btn-profile{
+  background:var(--light-gray);color:var(--black);border:none;
+  border-radius:10px;padding:0.65rem 1rem;
+  font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;
+  cursor:pointer;transition:background 0.2s;
+}
+.btn-profile:hover{background:var(--border);}
+.online-dot{
+  width:10px;height:10px;border-radius:50%;background:var(--green);
+  display:inline-block;margin-right:4px;box-shadow:0 0 0 2px rgba(34,197,94,0.3);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 2px rgba(34,197,94,0.3);}50%{box-shadow:0 0 0 5px rgba(34,197,94,0.1);}}
+
+/*===== SAFETY SECTION =====*/
+.safety-section{
+  background:var(--black);
+  padding:5rem 5%;
+}
+.safety-section .section-title{color:var(--white);}
+.safety-section .section-sub{color:#888;}
+.safety-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.safety-card{
+  background:#1e1e1e;border:1px solid #2a2a2a;
+  border-radius:16px;padding:2rem 1.5rem;
+  text-align:center;transition:border-color 0.3s,transform 0.3s;
+}
+.safety-card:hover{border-color:var(--yellow);transform:translateY(-4px);}
+.safety-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(255,214,0,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;margin:0 auto 1.2rem;
+  border:2px solid rgba(255,214,0,0.2);
+}
+.safety-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--white);letter-spacing:0.5px;margin-bottom:0.5rem;}
+.safety-desc{color:#888;font-size:0.85rem;line-height:1.6;}
+
+/*===== FARE CALCULATOR =====*/
+.calc-section{
+  background:linear-gradient(135deg,var(--yellow) 0%,var(--yellow-dark) 100%);
+  padding:5rem 5%;
+}
+.calc-wrapper{
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  align-items:center;max-width:1100px;margin:0 auto;
+}
+.calc-info .section-title{color:var(--black);}
+.calc-info .section-sub{color:rgba(0,0,0,0.6);}
+.calc-box{
+  background:var(--white);border-radius:20px;
+  padding:2rem;box-shadow:0 12px 48px rgba(0,0,0,0.15);
+}
+.calc-box h3{
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;
+  letter-spacing:0.5px;margin-bottom:1.5rem;
+}
+.calc-field{margin-bottom:1.2rem;}
+.calc-field label{
+  display:block;font-size:0.78rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:1px;
+  color:var(--muted);margin-bottom:0.4rem;
+}
+.calc-field input,.calc-field select{
+  width:100%;padding:0.7rem 1rem;
+  border:2px solid var(--border);border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:600;
+  outline:none;background:var(--off-white);
+  transition:border-color 0.2s;
+  appearance:none;
+}
+.calc-field input:focus,.calc-field select:focus{border-color:var(--yellow);}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fare-result{
+  background:var(--black);border-radius:12px;
+  padding:1.25rem 1.5rem;margin-top:1rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.fare-label{color:#888;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+.fare-amount{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  color:var(--yellow);letter-spacing:1px;
+}
+.calc-btn{
+  width:100%;background:var(--yellow);color:var(--black);
+  border:none;border-radius:10px;padding:0.85rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;
+  cursor:pointer;margin-top:1rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.calc-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+
+/*===== PRICING =====*/
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.5rem;
+}
+.price-card{
+  background:var(--white);border-radius:20px;
+  padding:2rem;box-shadow:var(--shadow);
+  border:2px solid transparent;
+  transition:border-color 0.3s,transform 0.3s;
+  position:relative;overflow:hidden;
+}
+.price-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--border);transition:background 0.3s;
+}
+.price-card.featured{border-color:var(--yellow);}
+.price-card.featured::before{background:var(--yellow);}
+.price-card:hover{transform:translateY(-4px);}
+.price-card-badge{
+  position:absolute;top:1.2rem;right:1.2rem;
+  background:var(--yellow);color:var(--black);
+  font-size:0.65rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  padding:0.25rem 0.6rem;border-radius:50px;
+}
+.price-icon{font-size:2.2rem;margin-bottom:1rem;}
+.price-type{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:0.5px;margin-bottom:0.25rem;}
+.price-base{font-size:0.8rem;color:var(--muted);font-weight:700;margin-bottom:1rem;}
+.price-amount{
+  font-family:'Bebas Neue',sans-serif;font-size:2.8rem;
+  line-height:1;color:var(--black);margin-bottom:0.3rem;
+}
+.price-amount span{font-size:1.1rem;vertical-align:top;margin-top:0.6rem;display:inline-block;margin-right:2px;}
+.price-per{color:var(--muted);font-size:0.78rem;font-weight:700;}
+.price-features{margin-top:1.2rem;display:flex;flex-direction:column;gap:0.5rem;}
+.pfeat{display:flex;align-items:center;gap:0.5rem;font-size:0.83rem;font-weight:700;color:var(--charcoal);}
+.pfeat .pcheck{color:var(--green);font-size:0.9rem;}
+.price-cta{
+  width:100%;margin-top:1.5rem;
+  background:var(--black);color:var(--white);
+  border:none;border-radius:10px;padding:0.75rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:0.9rem;
+  cursor:pointer;transition:background 0.2s;
+}
+.price-card.featured .price-cta{background:var(--yellow);color:var(--black);}
+.price-cta:hover{opacity:0.9;}
+
+/*===== REVIEWS =====*/
+.reviews-section{background:var(--black);padding:5rem 5%;}
+.reviews-section .section-title{color:var(--white);}
+.reviews-section .section-sub{color:#888;}
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1.5rem;margin-top:3rem;
+}
+.review-card{
+  background:#1a1a1a;border:1px solid #2a2a2a;
+  border-radius:16px;padding:1.75rem;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.review-card:hover{border-color:var(--yellow);transform:translateY(-3px);}
+.review-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.review-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--charcoal);display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.review-name{font-weight:800;color:var(--white);font-size:0.95rem;}
+.review-location{color:#666;font-size:0.75rem;font-weight:600;margin-top:2px;}
+.review-stars{display:flex;gap:2px;font-size:0.85rem;margin-top:4px;}
+.review-quote{
+  color:#ccc;font-size:0.88rem;line-height:1.7;
+  padding-top:1rem;border-top:1px solid #2a2a2a;
+}
+.review-driver-tag{
+  margin-top:1rem;padding-top:1rem;border-top:1px solid #2a2a2a;
+  display:flex;align-items:center;gap:0.4rem;
+  font-size:0.75rem;font-weight:700;color:var(--yellow);
+}
+
+/*===== BOOKING MODAL =====*/
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--white);border-radius:20px;
+  width:100%;max-width:480px;max-height:90vh;overflow-y:auto;
+  padding:2rem;animation:modalIn 0.3s ease;
+  position:relative;
+}
+@keyframes modalIn{from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-close{
+  position:absolute;top:1.2rem;right:1.2rem;
+  background:var(--light-gray);border:none;border-radius:50%;
+  width:36px;height:36px;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;
+}
+.modal-close:hover{background:var(--border);}
+.modal h2{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;
+  letter-spacing:0.5px;margin-bottom:0.3rem;
+}
+.modal-subtitle{color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem;}
+.modal-field{margin-bottom:1rem;}
+.modal-field label{
+  display:block;font-size:0.75rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:0.4rem;
+}
+.modal-field input,.modal-field select,.modal-field textarea{
+  width:100%;padding:0.7rem 1rem;
+  border:2px solid var(--border);border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:600;
+  outline:none;background:var(--off-white);transition:border-color 0.2s;
+}
+.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{border-color:var(--yellow);}
+.modal-field textarea{resize:none;height:80px;}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.modal-submit{
+  width:100%;background:var(--yellow);color:var(--black);
+  border:none;border-radius:10px;padding:0.9rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;
+  cursor:pointer;margin-top:0.5rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.modal-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,214,0,0.4);}
+.modal-fare-preview{
+  background:var(--black);border-radius:12px;padding:1rem 1.2rem;
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;
+}
+.mfp-label{color:#888;font-size:0.78rem;font-weight:700;}
+.mfp-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--yellow);}
+.success-msg{
+  text-align:center;padding:1.5rem 0;display:none;
+}
+.success-msg .s-icon{font-size:3rem;margin-bottom:1rem;}
+.success-msg h3{font-family:'Bebas Neue',sans-serif;font-size:2rem;margin-bottom:0.5rem;}
+.success-msg p{color:var(--muted);font-size:0.9rem;}
+
+/*===== CONTACT =====*/
+.contact-section{padding:5rem 5%;background:var(--off-white);}
+.contact-wrapper{
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  max-width:1000px;margin:0 auto;
+  align-items:start;
+}
+.contact-info{padding-top:0.5rem;}
+.contact-info .section-title{margin-bottom:1rem;}
+.contact-info p{color:var(--muted);line-height:1.7;margin-bottom:2rem;}
+.contact-details{display:flex;flex-direction:column;gap:1rem;}
+.cdetail{
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:0.9rem;font-weight:700;
+}
+.cdetail .cd-icon{
+  width:42px;height:42px;border-radius:10px;
+  background:var(--yellow);display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.contact-form-box{
+  background:var(--white);border-radius:20px;
+  padding:2rem;box-shadow:var(--shadow);
+}
+.contact-form-box h3{
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;
+  margin-bottom:1.2rem;
+}
+.cf-field{margin-bottom:1rem;}
+.cf-field label{
+  display:block;font-size:0.75rem;font-weight:800;text-transform:uppercase;
+  letter-spacing:1px;color:var(--muted);margin-bottom:0.4rem;
+}
+.cf-field input,.cf-field textarea{
+  width:100%;padding:0.7rem 1rem;
+  border:2px solid var(--border);border-radius:10px;
+  font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:600;
+  outline:none;background:var(--off-white);transition:border-color 0.2s;
+}
+.cf-field input:focus,.cf-field textarea:focus{border-color:var(--yellow);}
+.cf-field textarea{resize:none;height:110px;}
+.cf-submit{
+  width:100%;background:var(--black);color:var(--white);
+  border:none;border-radius:10px;padding:0.85rem;
+  font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;
+  cursor:pointer;margin-top:0.5rem;transition:background 0.2s;
+}
+.cf-submit:hover{background:var(--charcoal);}
+
+/*===== FOOTER =====*/
+footer{
+  background:var(--black);
+  padding:3rem 5% 2rem;
+  border-top:2px solid var(--yellow);
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;margin-bottom:2.5rem;
+}
+.footer-brand .nav-logo{margin-bottom:1rem;display:inline-flex;}
+.footer-brand p{color:#666;font-size:0.85rem;line-height:1.7;max-width:260px;}
+.footer-col h4{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;
+  color:var(--yellow);letter-spacing:1px;margin-bottom:1rem;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.footer-col ul li a{
+  color:#888;font-size:0.85rem;text-decoration:none;
+  font-weight:600;transition:color 0.2s;
+}
+.footer-col ul li a:hover{color:var(--yellow);}
+.footer-bottom{
+  border-top:1px solid #2a2a2a;padding-top:1.5rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+}
+.footer-bottom p{color:#555;font-size:0.8rem;}
+.footer-social{display:flex;gap:0.75rem;}
+.fsocial{
+  width:36px;height:36px;border-radius:8px;
+  background:#1e1e1e;border:1px solid #2a2a2a;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;color:#888;text-decoration:none;
+  transition:background 0.2s,color 0.2s,border-color 0.2s;
+}
+.fsocial:hover{background:var(--yellow);color:var(--black);border-color:var(--yellow);}
+
+/*===== ANIMATIONS =====*/
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes slideLeft{
+  from{opacity:0;transform:translateX(60px);}
+  to{opacity:1;transform:translateX(0);}
+}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/*===== RESPONSIVE =====*/
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .hero-visual{display:none;}
+  .calc-wrapper{grid-template-columns:1fr;}
+  .contact-wrapper{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .stats-section{flex-direction:column;}
+  .stat-item{border-right:none;border-bottom:1px solid #2a2a2a;}
+  .modal-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .trust-strip{gap:1.5rem;}
+  .search-row{flex-direction:column;}
+  .search-submit{padding:0.6rem;}
+}
+
+/*===== TOP RATED BADGE =====*/
+.top-badge{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  background:linear-gradient(135deg,#FFD600,#F5A623);
+  color:var(--black);font-size:0.65rem;font-weight:800;
+  padding:0.2rem 0.5rem;border-radius:50px;
+  letter-spacing:0.5px;
+}
+.verified-badge{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  background:rgba(34,197,94,0.15);color:var(--green);
+  font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:50px;
+}
+.new-badge{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  background:rgba(59,130,246,0.15);color:#60A5FA;
+  font-size:0.65rem;font-weight:800;padding:0.2rem 0.5rem;border-radius:50px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#"><span>🚕</span> Cab<span style="color:var(--white)">Saathi</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#drivers">Drivers</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#booking" onclick="openModal()">Book Now</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="toggleMenu()">Home</a>
+  <a href="#drivers" onclick="toggleMenu()">Drivers</a>
+  <a href="#reviews" onclick="toggleMenu()">Reviews</a>
+  <a href="#pricing" onclick="toggleMenu()">Pricing</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#" onclick="openModal();toggleMenu();" style="color:var(--yellow);">📲 Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏆 India's Most Trusted Cab Network</div>
+    <h1>Your <em>Safe</em><br>Ride,<br>Anywhere.</h1>
+    <p>Connect with verified, top-rated cab drivers across India. Transparent fares, real-time tracking, and 24/7 safety support — all in one place.</p>
+    <div class="search-box">
+      <div class="search-row">
+        <div class="search-input-wrap">
+          <span class="si-icon">📍</span>
+          <input type="text" placeholder="Pickup location…" id="pickupInput"/>
+        </div>
+        <div class="search-input-wrap">
+          <span class="si-icon">🎯</span>
+          <input type="text" placeholder="Destination…" id="destInput"/>
+        </div>
+        <button class="search-submit" onclick="searchDrivers()">Find →</button>
+      </div>
+      <div class="search-tags">
+        <span>Popular:</span>
+        <span class="stag" onclick="fillSearch('Mumbai Airport')">Mumbai Airport</span>
+        <span class="stag" onclick="fillSearch('Connaught Place')">Connaught Place</span>
+        <span class="stag" onclick="fillSearch('MG Road')">MG Road</span>
+        <span class="stag" onclick="fillSearch('Bandra')">Bandra</span>
+      </div>
+    </div>
+  </div>
+  <!-- Car Graphic -->
+  <div class="hero-visual">
+    <svg class="hero-car-svg" viewBox="0 0 700 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Road -->
+      <rect x="0" y="370" width="700" height="50" fill="#1a1a1a"/>
+      <rect x="0" y="368" width="700" height="4" fill="#333"/>
+      <rect x="60" y="388" width="80" height="6" rx="3" fill="#FFD600" opacity="0.6"/>
+      <rect x="200" y="388" width="80" height="6" rx="3" fill="#FFD600" opacity="0.6"/>
+      <rect x="340" y="388" width="80" height="6" rx="3" fill="#FFD600" opacity="0.6"/>
+      <rect x="480" y="388" width="80" height="6" rx="3" fill="#FFD600" opacity="0.6"/>
+      <!-- Car body shadow -->
+      <ellipse cx="350" cy="375" rx="200" ry="12" fill="rgba(0,0,0,0.5)"/>
+      <!-- Car body -->
+      <rect x="100" y="290" width="500" height="85" rx="12" fill="#FFD600"/>
+      <!-- Roof -->
+      <path d="M200 290 L240 220 L460 220 L500 290 Z" fill="#F5C000"/>
+      <!-- Taxi sign -->
+      <rect x="300" y="200" width="100" height="28" rx="6" fill="#111"/>
+      <text x="350" y="218" text-anchor="middle" fill="#FFD600" font-family="Bebas Neue" font-size="16" letter-spacing="2">TAXI</text>
+      <!-- Windows -->
+      <rect x="250" y="230" width="90" height="52" rx="6" fill="#B8E4F9" opacity="0.8"/>
+      <rect x="360" y="230" width="90" height="52" rx="6" fill="#B8E4F9" opacity="0.8"/>
+      <!-- Window shine -->
+      <line x1="258" y1="238" x2="268" y2="250" stroke="white" stroke-width="2" opacity="0.5"/>
+      <line x1="368" y1="238" x2="378" y2="250" stroke="white" stroke-width="2" opacity="0.5"/>
+      <!-- Doors -->
+      <line x1="350" y1="290" x2="350" y2="375" stroke="#E5A800" stroke-width="2"/>
+      <!-- Headlights -->
+      <rect x="105" y="305" width="35" height="18" rx="5" fill="#FFF9C4"/>
+      <rect x="108" y="307" width="29" height="14" rx="4" fill="#FFEE58" opacity="0.9"/>
+      <!-- Tail lights -->
+      <rect x="560" y="305" width="35" height="18" rx="5" fill="#FF6B6B"/>
+      <!-- Wheels -->
+      <circle cx="220" cy="372" r="38" fill="#222"/>
+      <circle cx="220" cy="372" r="26" fill="#333"/>
+      <circle cx="220" cy="372" r="10" fill="#FFD600"/>
+      <circle cx="480" cy="372" r="38" fill="#222"/>
+      <circle cx="480" cy="372" r="26" fill="#333"/>
+      <circle cx="480" cy="372" r="10" fill="#FFD600"/>
+      <!-- Wheel spokes -->
+      <line x1="220" y1="346" x2="220" y2="362" stroke="#FFD600" stroke-width="3"/>
+      <line x1="220" y1="382" x2="220" y2="398" stroke="#FFD600" stroke-width="3"/>
+      <line x1="194" y1="372" x2="210" y2="372" stroke="#FFD600" stroke-width="3"/>
+      <line x1="230" y1="372" x2="246" y2="372" stroke="#FFD600" stroke-width="3"/>
+      <line x1="480" y1="346" x2="480" y2="362" stroke="#FFD600" stroke-width="3"/>
+      <line x1="480" y1="382" x2="480" y2="398" stroke="#FFD600" stroke-width="3"/>
+      <line x1="454" y1="372" x2="470" y2="372" stroke="#FFD600" stroke-width="3"/>
+      <line x1="490" y1="372" x2="506" y2="372" stroke="#FFD600" stroke-width="3"/>
+      <!-- Door handle -->
+      <rect x="280" y="325" width="28" height="6" rx="3" fill="#E5A800"/>
+      <rect x="392" y="325" width="28" height="6" rx="3" fill="#E5A800"/>
+      <!-- Stars floating -->
+      <text x="580" y="260" fill="#FFD600" font-size="20" opacity="0.6">★</text>
+      <text x="620" y="300" fill="#FFD600" font-size="14" opacity="0.4">★</text>
+      <text x="560" y="320" fill="#FFD600" font-size="10" opacity="0.3">★</text>
+    </svg>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-item"><span class="ticon">🛡️</span> Police Verified Drivers</div>
+  <div class="trust-item"><span class="ticon">⭐</span> 4.8+ Average Rating</div>
+  <div class="trust-item"><span class="ticon">🚘</span> 10,000+ Active Drivers</div>
+  <div class="trust-item"><span class="ticon">💰</span> No Hidden Charges</div>
+  <div class="trust-item"><span class="ticon">📱</span> 24/7 Support</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="10000">0</div>
+    <div class="stat-label">Verified Drivers</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="500000">0</div>
+    <div class="stat-label">Rides Completed</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="48">0</div>
+    <div class="stat-label">Cities Covered</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num" data-target="98">0</div>
+    <div class="stat-label">% Safety Score</div>
+  </div>
+</div>
+
+<!-- DRIVERS -->
+<section class="section" id="drivers">
+  <div class="section-header reveal">
+    <div class="section-tag">Our Drivers</div>
+    <h2 class="section-title">Top-Rated Drivers<br>Near You</h2>
+    <p class="section-sub">Hand-picked, police-verified drivers with consistently high ratings and thousands of happy rides.</p>
+  </div>
+  <div class="drivers-grid" id="driversGrid">
+
+    <div class="driver-card reveal">
+      <div class="driver-card-top">
+        <div class="driver-badge">🏆 Top Rated</div>
+        <div class="driver-avatar">👨</div>
+        <div class="driver-name">Ramesh Kumar</div>
+        <div class="driver-vehicle">Maruti Swift Dzire · DL-4C-7821</div>
+        <div class="driver-stars">
+          <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          <span class="driver-rating-text">4.9 (826 rides)</span>
+        </div>
+      </div>
+      <div class="driver-card-body">
+        <div class="driver-meta">
+          <span class="dmeta"><span class="dm-icon"><span class="online-dot"></span></span>Online</span>
+          <span class="dmeta"><span class="dm-icon">📍</span>2.1 km away</span>
+          <span class="dmeta"><span class="dm-icon">⏱</span>5 min ETA</span>
+        </div>
+        <div class="driver-tags">
+          <span class="dtag top-badge">🥇 Top Rated</span>
+          <span class="dtag verified-badge">✅ Verified</span>
+          <span class="dtag">AC Car</span>
+          <span class="dtag">Hindi · English</span>
+        </div>
+        <div class="driver-actions">
+          <button class="btn-book" onclick="openModal('Ramesh Kumar','₹12/km')">Book Ramesh</button>
+          <button class="btn-profile" onclick="showProfile('Ramesh Kumar')">View</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="driver-card reveal">
+      <div class="driver-card-top">
+        <div class="driver-badge">⭐ Featured</div>
+        <div class="driver-avatar">👨‍🦱</div>
+        <div class="driver-name">Suresh Patil</div>
+        <div class="driver-vehicle">Honda City · MH-12-PQ-3456</div>
+        <div class="driver-stars">
+          <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span>
+          <span class="driver-rating-text">4.7 (1,203 rides)</span>
+        </div>
+      </div>
+      <div class="driver-card-body">
+        <div class="driver-meta">
+          <span class="dmeta"><span class="dm-icon"><span class="online-dot"></span></span>Online</span>
+          <span class="dmeta"><span class="dm-icon">📍</span>0.8 km away</span>
+          <span class="dmeta"><span class="dm-icon">⏱</span>2 min ETA</span>
+        </div>
+        <div class="driver-tags">
+          <span class="dtag top-badge">🥈 Senior Driver</span>
+          <span class="dtag verified-badge">✅ Verified</span>
+          <span class="dtag">Premium Car</span>
+          <span class="dtag">Marathi · Hindi</span>
+        </div>
+        <div class="driver-actions">
+          <button class="btn-book" onclick="openModal('Suresh Patil','₹15/km')">Book Suresh</button>
+          <button class="btn-profile">View</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="driver-card reveal">
+      <div class="driver-card-top">
+        <div class="driver-badge">🆕 New</div>
+        <div class="driver-avatar">👩</div>
+        <div class="driver-name">Priya Sharma</div>
+        <div class="driver-vehicle">Tata Tiago · KA-05-MN-8812</div>
+        <div class="driver-stars">
+          <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          <span class="driver-rating-text">5.0 (124 rides)</span>
+        </div>
+      </div>
+      <div class="driver-card-body">
+        <div class="driver-meta">
+          <span class="dmeta" style="color:#EF4444;font-weight:800;">🔴 Busy</span>
+          <span class="dmeta"><span class="dm-icon">📍</span>3.4 km away</span>
+          <span class="dmeta"><span class="dm-icon">⏱</span>12 min ETA</span>
+        </div>
+        <div class="driver-tags">
+          <span class="dtag new-badge">🌟 Rising Star</span>
+          <span class="dtag verified-badge">✅ Verified</span>
+          <span class="dtag">Women Safety</span>
+          <span class="dtag">Kannada · Hindi</span>
+        </div>
+        <div class="driver-actions">
+          <button class="btn-book" onclick="openModal('Priya Sharma','₹11/km')">Book Priya</button>
+          <button class="btn-profile">View</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="driver-card reveal">
+      <div class="driver-card-top">
+        <div class="driver-badge">💎 Elite</div>
+        <div class="driver-avatar">👨‍🦳</div>
+        <div class="driver-name">Mohan Das</div>
+        <div class="driver-vehicle">Toyota Innova · TN-09-CD-2233</div>
+        <div class="driver-stars">
+          <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          <span class="driver-rating-text">4.8 (3,450 rides)</span>
+        </div>
+      </div>
+      <div class="driver-card-body">
+        <div class="driver-meta">
+          <span class="dmeta"><span class="dm-icon"><span class="online-dot"></span></span>Online</span>
+          <span class="dmeta"><span class="dm-icon">📍</span>1.5 km away</span>
+          <span class="dmeta"><span class="dm-icon">⏱</span>4 min ETA</span>
+        </div>
+        <div class="driver-tags">
+          <span class="dtag top-badge">💎 Elite Driver</span>
+          <span class="dtag verified-badge">✅ Verified</span>
+          <span class="dtag">7-Seater</span>
+          <span class="dtag">Tamil · English</span>
+        </div>
+        <div class="driver-actions">
+          <button class="btn-book" onclick="openModal('Mohan Das','₹18/km')">Book Mohan</button>
+          <button class="btn-profile">View</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SAFETY SECTION -->
+<section class="safety-section" id="safety">
+  <div class="section-header reveal" style="text-align:center;max-width:600px;margin:0 auto 0;">
+    <div class="section-tag">Safety First</div>
+    <h2 class="section-title" style="color:var(--white)">Your Safety is Our<br>Top Priority</h2>
+    <p class="section-sub" style="color:#888;margin:0 auto;">Every driver is background-checked, trained, and monitored so you can ride with complete peace of mind.</p>
+  </div>
+  <div class="safety-grid">
+    <div class="safety-card reveal">
+      <div class="safety-icon">🛡️</div>
+      <div class="safety-title">Police Verified</div>
+      <div class="safety-desc">All drivers undergo thorough police verification before joining our platform.</div>
+    </div>
+    <div class="safety-card reveal">
+      <div class="safety-icon">📍</div>
+      <div class="safety-title">Live Tracking</div>
+      <div class="safety-desc">Real-time GPS tracking shared with family and emergency contacts throughout your ride.</div>
+    </div>
+    <div class="safety-card reveal">
+      <div class="safety-icon">🆘</div>
+      <div class="safety-title">SOS Button</div>
+      <div class="safety-desc">One-tap emergency button connects you instantly to police and our 24/7 safety team.</div>
+    </div>
+    <div class="safety-card reveal">
+      <div class="safety-icon">⭐</div>
+      <div class="safety-title">Rating System</div>
+      <div class="safety-desc">Continuous driver quality monitoring through honest passenger reviews after every trip.</div>
+    </div>
+    <div class="safety-card reveal">
+      <div class="safety-icon">📷</div>
+      <div class="safety-title">CCTV Equipped</div>
+      <div class="safety-desc">Premium fleet vehicles are fitted with CCTV cameras for added passenger security.</div>
+    </div>
+    <div class="safety-card reveal">
+      <div class="safety-icon">💳</div>
+      <div class="safety-title">Cashless Safe Pay</div>
+      <div class="safety-desc">UPI, card, and wallet payments — no need to carry cash, reducing disputes and risk.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FARE CALCULATOR -->
+<section class="calc-section" id="pricing">
+  <div class="calc-wrapper">
+    <div class="calc-info reveal">
+      <div class="section-tag" style="background:var(--black);color:var(--yellow);">Fare Calculator</div>
+      <h2 class="section-title">Know Your Fare<br>Before You Ride</h2>
+      <p class="section-sub">No surprises. Calculate your estimated fare instantly in Indian Rupees. Fares include base rate, per-km charge, and applicable tolls.</p>
+      <br>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;margin-top:1rem;">
+        <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;font-weight:700;">
+          <span style="width:36px;height:36px;background:rgba(0,0,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;">⚡</span>
+          Base fare includes first 2 km
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;font-weight:700;">
+          <span style="width:36px;height:36px;background:rgba(0,0,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;">🌙</span>
+          Night surcharge after 11 PM
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;font-weight:700;">
+          <span style="width:36px;height:36px;background:rgba(0,0,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;">🧾</span>
+          GST included in all fares
+        </div>
+      </div>
+    </div>
+    <div class="calc-box reveal">
+      <h3>Estimate Your Fare</h3>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>Distance (km)</label>
+          <input type="number" id="calcDist" min="1" max="500" placeholder="e.g. 15" oninput="calcFare()"/>
+        </div>
+        <div class="calc-field">
+          <label>Vehicle Type</label>
+          <select id="calcType" onchange="calcFare()">
+            <option value="auto">Auto Rickshaw</option>
+            <option value="mini">Mini (Hatchback)</option>
+            <option value="sedan" selected>Sedan</option>
+            <option value="prime">Prime Sedan</option>
+            <option value="suv">SUV / Innova</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>Time of Ride</label>
+          <select id="calcTime" onchange="calcFare()">
+            <option value="day">Day (6AM–11PM)</option>
+            <option value="night">Night (11PM–6AM)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label>Ride Type</label>
+          <select id="calcRide" onchange="calcFare()">
+            <option value="normal">Normal</option>
+            <option value="airport">Airport Drop</option>
+            <option value="outstation">Outstation</option>
+          </select>
+        </div>
+      </div>
+      <div class="fare-result">
+        <div>
+          <div class="fare-label">Estimated Fare</div>
+          <div class="fare-amount" id="fareOutput">₹ ---</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="fare-label">Per km</div>
+          <div style="color:#888;font-size:1.1rem;font-weight:800;margin-top:4px;" id="perKmOutput">---</div>
+        </div>
+      </div>
+      <button class="calc-btn" onclick="openModal()">🚕 Book This Ride</button>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING CARDS -->
+<section class="section" style="background:var(--off-white);">
+  <div class="section-header reveal" style="text-align:center;max-width:600px;margin:0 auto 3rem;">
+    <div class="section-tag">Fare Breakdown</div>
+    <h2 class="section-title">Transparent Pricing<br>in ₹ Rupees</h2>
+    <p class="section-sub" style="margin:0 auto;">Choose the ride that fits your budget. All prices are inclusive of GST.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-icon">🛺</div>
+      <div class="price-type">Auto Rickshaw</div>
+      <div class="price-base">Best for short city trips</div>
+      <div class="price-amount"><span>₹</span>8</div>
+      <div class="price-per">per km · ₹30 base fare</div>
+      <div class="price-features">
+        <div class="pfeat"><span class="pcheck">✓</span> Up to 3 passengers</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Open air ride</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Meter verified</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Eco-friendly</div>
+      </div>
+      <button class="price-cta" onclick="openModal()">Book Auto</button>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-icon">🚗</div>
+      <div class="price-type">Mini / Hatchback</div>
+      <div class="price-base">Affordable & comfortable</div>
+      <div class="price-amount"><span>₹</span>11</div>
+      <div class="price-per">per km · ₹50 base fare</div>
+      <div class="price-features">
+        <div class="pfeat"><span class="pcheck">✓</span> Up to 4 passengers</div>
+        <div class="pfeat"><span class="pcheck">✓</span> AC available</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Verified driver</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Music on request</div>
+      </div>
+      <button class="price-cta" onclick="openModal()">Book Mini</button>
+    </div>
+    <div class="price-card featured reveal">
+      <div class="price-card-badge">Most Popular</div>
+      <div class="price-icon">🚕</div>
+      <div class="price-type">Sedan</div>
+      <div class="price-base">Comfortable city & highway</div>
+      <div class="price-amount"><span>₹</span>15</div>
+      <div class="price-per">per km · ₹70 base fare</div>
+      <div class="price-features">
+        <div class="pfeat"><span class="pcheck">✓</span> Up to 4 passengers</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Fully AC</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Top-rated drivers</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Luggage space</div>
+      </div>
+      <button class="price-cta" onclick="openModal()">Book Sedan</button>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-icon">🚙</div>
+      <div class="price-type">SUV / Innova</div>
+      <div class="price-base">Group travel & airport</div>
+      <div class="price-amount"><span>₹</span>20</div>
+      <div class="price-per">per km · ₹120 base fare</div>
+      <div class="price-features">
+        <div class="pfeat"><span class="pcheck">✓</span> Up to 7 passengers</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Premium AC</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Airport certified</div>
+        <div class="pfeat"><span class="pcheck">✓</span> Large boot space</div>
+      </div>
+      <button class="price-cta" onclick="openModal()">Book SUV</button>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="section-header reveal" style="text-align:center;max-width:600px;margin:0 auto 0;">
+    <div class="section-tag">Reviews</div>
+    <h2 class="section-title" style="color:var(--white)">What Passengers Say</h2>
+    <p class="section-sub" style="color:#888;margin:0 auto;">Real reviews from real passengers across India.</p>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👩‍💼</div>
+        <div>
+          <div class="review-name">Anjali Mehta</div>
+          <div class="review-location">Mumbai, Maharashtra</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">Ramesh bhaiya was incredibly punctual. Arrived 3 minutes early and the car was spotlessly clean. Felt very safe throughout the journey. This is my go-to app now!</div>
+      <div class="review-driver-tag">🚕 Driver: Ramesh Kumar · Sedan Ride</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👨‍💻</div>
+        <div>
+          <div class="review-name">Karthik Rajan</div>
+          <div class="review-location">Chennai, Tamil Nadu</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">Used Mohan's Innova for my airport drop. He helped with luggage, knew alternate routes to avoid traffic, and even had water bottles ready. Truly elite service!</div>
+      <div class="review-driver-tag">🚕 Driver: Mohan Das · SUV Ride</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👩</div>
+        <div>
+          <div class="review-name">Deepa Nair</div>
+          <div class="review-location">Bengaluru, Karnataka</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">As a woman who travels alone late at night, CabSaathi gives me peace of mind. Priya is an amazing driver and I feel completely safe. The SOS feature is a lifesaver!</div>
+      <div class="review-driver-tag">🚕 Driver: Priya Sharma · Mini Ride</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👴</div>
+        <div>
+          <div class="review-name">Harish Gupta</div>
+          <div class="review-location">New Delhi, Delhi</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-empty">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">The fare calculator was spot-on — exactly what I paid. No hidden charges. Suresh was very polite and offered to play my preferred FM radio. Great experience overall.</div>
+      <div class="review-driver-tag">🚕 Driver: Suresh Patil · Sedan Ride</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👩‍🎓</div>
+        <div>
+          <div class="review-name">Sneha Patel</div>
+          <div class="review-location">Ahmedabad, Gujarat</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">Booked for my entire family trip — 6 people in an Innova. The driver was extremely courteous, helped with all our bags, and charged exactly the estimated fare. 10/10!</div>
+      <div class="review-driver-tag">🚕 Driver: Mohan Das · SUV Group Ride</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-header">
+        <div class="review-avatar">👨</div>
+        <div>
+          <div class="review-name">Arjun Singh</div>
+          <div class="review-location">Jaipur, Rajasthan</div>
+          <div class="review-stars">
+            <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span>
+          </div>
+        </div>
+      </div>
+      <div class="review-quote">Impressed by how easy the app is to use. Found a driver in under 2 minutes, car was clean and AC was perfect. Will definitely recommend CabSaathi to all my friends!</div>
+      <div class="review-driver-tag">🚕 Driver: Ramesh Kumar · Sedan Ride</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-info reveal">
+      <div class="section-tag">Contact Us</div>
+      <h2 class="section-title">Get in Touch<br>Anytime</h2>
+      <p>We're here to help — whether you're a passenger, a driver wanting to join, or a partner. Reach out and our team will respond within hours.</p>
+      <div class="contact-details">
+        <div class="cdetail">
+          <div class="cd-icon">📞</div>
+          <div>
+            <div style="font-weight:800;">+91 98765 43210</div>
+            <div style="color:var(--muted);font-size:0.78rem;">24/7 Helpline</div>
+          </div>
+        </div>
+        <div class="cdetail">
+          <div class="cd-icon">✉️</div>
+          <div>
+            <div style="font-weight:800;">support@cabsaathi.in</div>
+            <div style="color:var(--muted);font-size:0.78rem;">Email Support</div>
+          </div>
+        </div>
+        <div class="cdetail">
+          <div class="cd-icon">📍</div>
+          <div>
+            <div style="font-weight:800;">Mumbai · Delhi · Bengaluru</div>
+            <div style="color:var(--muted);font-size:0.78rem;">& 45 more cities</div>
+          </div>
+        </div>
+        <div class="cdetail">
+          <div class="cd-icon">💬</div>
+          <div>
+            <div style="font-weight:800;">WhatsApp: +91 87654 32109</div>
+            <div style="color:var(--muted);font-size:0.78rem;">Instant Messaging</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form-box reveal">
+      <h3>Send a Message</h3>
+      <div class="cf-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="e.g. Rajesh Kumar"/>
+      </div>
+      <div class="cf-field">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 43210"/>
+      </div>
+      <div class="cf-field">
+        <label>Subject</label>
+        <input type="text" placeholder="How can we help?"/>
+      </div>
+      <div class="cf-field">
+        <label>Message</label>
+        <textarea placeholder="Tell us more…"></textarea>
+      </div>
+      <button class="cf-submit" onclick="submitContact()">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#">🚕 Cab<span style="color:var(--white)">Saathi</span></a>
+      <p>India's most trusted cab driver network. Safe rides, happy journeys, transparent fares.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#drivers">Find Drivers</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Drivers</h4>
+      <ul>
+        <li><a href="#">Join CabSaathi</a></li>
+        <li><a href="#">Driver App</a></li>
+        <li><a href="#">Driver Support</a></li>
+        <li><a href="#">Earnings Guide</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Safety Policy</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 CabSaathi India Pvt. Ltd. All rights reserved. | Made with ❤️ in India 🇮🇳</p>
+    <div class="footer-social">
+      <a class="fsocial" href="#">𝕏</a>
+      <a class="fsocial" href="#">f</a>
+      <a class="fsocial" href="#">in</a>
+      <a class="fsocial" href="#">📸</a>
+    </div>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Book Your Ride</h2>
+    <p class="modal-subtitle" id="modalSubtitle">Fill in your details and we'll connect you instantly.</p>
+    <div id="bookingForm">
+      <div class="modal-field">
+        <label>Your Name</label>
+        <input type="text" placeholder="e.g. Rajesh Kumar" id="bName"/>
+      </div>
+      <div class="modal-field">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 43210" id="bPhone"/>
+      </div>
+      <div class="modal-grid">
+        <div class="modal-field">
+          <label>Pickup Location</label>
+          <input type="text" placeholder="From…" id="bPickup"/>
+        </div>
+        <div class="modal-field">
+          <label>Destination</label>
+          <input type="text" placeholder="To…" id="bDest"/>
+        </div>
+      </div>
+      <div class="modal-grid">
+        <div class="modal-field">
+          <label>Date</label>
+          <input type="date" id="bDate"/>
+        </div>
+        <div class="modal-field">
+          <label>Time</label>
+          <input type="time" id="bTime"/>
+        </div>
+      </div>
+      <div class="modal-field">
+        <label>Vehicle Type</label>
+        <select id="bVehicle" onchange="updateModalFare()">
+          <option value="auto">Auto Rickshaw — ₹8/km</option>
+          <option value="mini">Mini / Hatchback — ₹11/km</option>
+          <option value="sedan" selected>Sedan — ₹15/km</option>
+          <option value="prime">Prime Sedan — ₹18/km</option>
+          <option value="suv">SUV / Innova — ₹20/km</option>
+          <option value="luxury">Luxury — ₹28/km</option>
+        </select>
+      </div>
+      <div class="modal-fare-preview">
+        <div>
+          <div class="mfp-label">Estimated Starting Fare</div>
+          <div class="mfp-val" id="modalFare">₹70</div>
+        </div>
+        <div style="color:#555;font-size:0.8rem;text-align:right;max-width:140px;">Final fare based on distance + time</div>
+      </div>
+      <div class="modal-field">
+        <label>Special Requests (Optional)</label>
+        <textarea placeholder="e.g. need help with luggage, travelling with senior citizen…" id="bNotes"></textarea>
+      </div>
+      <button class="modal-submit" onclick="submitBooking()">🚕 Confirm Booking</button>
+    </div>
+    <div class="success-msg" id="successMsg">
+      <div class="s-icon">🎉</div>
+      <h3>Booking Confirmed!</h3>
+      <p>Your driver is on the way. You'll receive an SMS confirmation shortly on your registered number.</p>
+      <br>
+      <button onclick="closeModal()" style="background:var(--yellow);border:none;border-radius:10px;padding:0.7rem 2rem;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;margin-top:0.5rem;">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);
+});
+
+// MOBILE MENU
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// SEARCH
+function searchDrivers(){
+  const p=document.getElementById('pickupInput').value;
+  const d=document.getElementById('destInput').value;
+  if(!p||!d){alert('Please enter pickup and destination!');return;}
+  document.querySelector('#drivers').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>alert(`Found 8 drivers near "${p}" heading to "${d}"! Check the listings below.`),600);
+}
+function fillSearch(text){
+  const i=document.getElementById('destInput');
+  i.value=text;i.focus();
+}
+
+// FARE CALCULATOR
+const rates={
+  auto:{base:30,per:8,night:10,airport:1.2,outstation:1.1},
+  mini:{base:50,per:11,night:13,airport:1.2,outstation:1.15},
+  sedan:{base:70,per:15,night:18,airport:1.15,outstation:1.2},
+  prime:{base:90,per:18,night:22,airport:1.1,outstation:1.2},
+  suv:{base:120,per:20,night:25,airport:1.1,outstation:1.25},
+  luxury:{base:200,per:28,night:35,airport:1.05,outstation:1.3}
+};
+function calcFare(){
+  const dist=parseFloat(document.getElementById('calcDist').value)||0;
+  const type=document.getElementById('calcType').value;
+  const time=document.getElementById('calcTime').value;
+  const ride=document.getElementById('calcRide').value;
+  if(!dist){document.getElementById('fareOutput').textContent='₹ ---';document.getElementById('perKmOutput').textContent='---';return;}
+  const r=rates[type];
+  let perKm=time==='night'?r.night:r.per;
+  let fare=r.base+(dist<=2?0:(dist-2)*perKm);
+  if(ride==='airport')fare*=r.airport;
+  if(ride==='outstation')fare*=r.outstation;
+  fare=Math.round(fare);
+  document.getElementById('fareOutput').textContent='₹ '+fare.toLocaleString('en-IN');
+  document.getElementById('perKmOutput').textContent='₹'+perKm+'/km';
+}
+
+// MODAL
+const modalFares={auto:'₹30',mini:'₹50',sedan:'₹70',prime:'₹90',suv:'₹120',luxury:'₹200'};
+function openModal(driver,fare){
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('bookingForm').style.display='block';
+  document.getElementById('successMsg').style.display='none';
+  if(driver){
+    document.getElementById('modalSubtitle').textContent='Booking with '+driver+' · Base fare '+fare;
+  }else{
+    document.getElementById('modalSubtitle').textContent='Fill in your details and we\'ll connect you instantly.';
+  }
+  // Set today's date
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('bDate').value=today;
+  const now=new Date();
+  document.getElementById('bTime').value=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+function closeModalOutside(e){
+  if(e.target===document.getElementById('modalOverlay'))closeModal();
+}
+function updateModalFare(){
+  const v=document.getElementById('bVehicle').value;
+  document.getElementById('modalFare').textContent=modalFares[v]||'₹70';
+}
+function submitBooking(){
+  const name=document.getElementById('bName').value;
+  const phone=document.getElementById('bPhone').value;
+  const pickup=document.getElementById('bPickup').value;
+  const dest=document.getElementById('bDest').value;
+  if(!name||!phone||!pickup||!dest){alert('Please fill in all required fields.');return;}
+  document.getElementById('bookingForm').style.display='none';
+  document.getElementById('successMsg').style.display='block';
+}
+function showProfile(name){
+  alert('Driver Profile: '+name+'\n\nFull profile with past trips, vehicle details, and certifications coming soon!');
+}
+
+// CONTACT
+function submitContact(){
+  alert('✅ Message sent! Our team will get back to you within a few hours. Thank you!');
+}
+
+// REVEAL ON SCROLL
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// COUNT UP ANIMATION
+function countUp(el,target){
+  let current=0;
+  const step=Math.ceil(target/60);
+  const timer=setInterval(()=>{
+    current=Math.min(current+step,target);
+    el.textContent=current>=1000?current.toLocaleString('en-IN'):current;
+    if(current>=target){clearInterval(timer);el.textContent=target>=1000?target.toLocaleString('en-IN'):target;}
+  },30);
+}
+const statObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const nums=e.target.querySelectorAll('.stat-num[data-target]');
+      nums.forEach(n=>{countUp(n,parseInt(n.dataset.target));delete n.dataset.target;});
+      statObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.stats-section').forEach(s=>statObserver.observe(s));
+</script>
+</body>
+</html>
